@@ -1,16 +1,16 @@
-var bWin = window.bWin || (function ($) {
+var bwin = window.bwin || (function ($) {
 
     var that = function ($el, options) {
         options = $.extend({drag:{cursor:"move", title:""}}, options);
         this.options = options;
         this.$popup = $($el);
-        this.$popup.delegate('[data-dismiss="bWin"]', 'click.bWin', $.proxy(this.hide, this));
+        this.$popup.delegate('[data-dismiss="bwin"]', 'click.bwin', $.proxy(this.hide, this));
         this.isShown = false;
     }
 
     that.prototype = {
         constructor:that,
-        zIndex:1000,
+        zIndex:1400,
         toggle:function () {
             return this[!this.isShown ? 'show' : 'hide']()
         },
@@ -46,11 +46,11 @@ var bWin = window.bWin || (function ($) {
             if ( head.has('.elements').length == 0 ) {
                 var closeLink = $('<a>')
                     .attr('href', '#')
-                    .attr('data-dismiss', 'bWin')
+                    .attr('data-dismiss', 'bwin')
                     .html('&times;')
                     .addClass('elements')
                     .addClass('close');
-                closeLink.attr('data-close', 'bWin');
+                closeLink.attr('data-close', 'bwin');
                 head.append(closeLink);
             }
 
@@ -93,19 +93,19 @@ var bWin = window.bWin || (function ($) {
         },
         overlay:{
             show:function () {
-                $('<div>').attr('id', 'overlay').css({top:0, right:0, left:0, bottom:0}).addClass('bwin-backdrop')
+                $('<div>').attr('id', 'bwin-overlay').css({top:0, right:0, left:0, bottom:0}).addClass('bwin-backdrop')
                     .appendTo(document.body);
-                $('body').addClass('bWin-open');
+                $('body').addClass('bwin-open');
             },
             remove:function () {
-                $('#overlay').remove();
-                $('body').removeClass('bWin-open');
+                $('#bwin-overlay').remove();
+                $('body').removeClass('bwin-open');
             }
         },
 
         _calculateBody:function () {
             this.$popup.find('.bwin-body').css({
-                maxHeight:$(window).height() - 200,
+                maxHeight:$(window).height() - 150,
                 maxWidth:$(window).width() - 150
             })
             this._center();
@@ -148,12 +148,12 @@ var bWin = window.bWin || (function ($) {
     };
 
 
-    $.fn.bWin = function (option) {
+    $.fn.bwin = function (option) {
         return this.each(function () {
 
             var $this = $(this)
-                , data = $this.data('bWin')
-                , options = $.extend({}, $.fn.bWin.defaults, $this.data(), typeof option == 'object' && option);
+                , data = $this.data('bwin')
+                , options = $.extend({}, $.fn.bwin.defaults, $this.data(), typeof option == 'object' && option);
 
             if (!data) $this.data('modal', (data = new that(this, options)))
             if (typeof option == 'string')data[option]()
@@ -161,20 +161,20 @@ var bWin = window.bWin || (function ($) {
         })
     }
 
-    $.fn.bWin.index = 1000;
-    $.fn.bWin.defaults = {drag:{cursor:"move"}, show:true, title:""};
-    $.fn.bWin.Constructor = that;
+    $.fn.bwin.index = 1000;
+    $.fn.bwin.defaults = {drag:{cursor:"move"}, show:true, title:""};
+    $.fn.bwin.Constructor = that;
 
     $(document).ready(function () {
-        $('body').on('click.bwin.data-api', '[data-toggle="bWin"]', function (e) {
+        $('body').on('click.bwin.data-api', '[data-toggle="bwin"]', function (e) {
             var $this = $(this)
                 , href = $this.attr('href')
                 , $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-                , option = $target.data('bWin') ? 'show' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data())
+                , option = $target.data('bwin') ? 'show' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data())
 
             e.preventDefault()
 
-            $target.bWin(option)
+            $target.bwin(option)
                 .one('hide', function () {
                     $this.focus()
                 })
