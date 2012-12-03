@@ -112,8 +112,8 @@ var bwin = window.bwin || (function ($) {
             this._center();
         },
         _center:function () {
-            var top = ($(window).height() - this.$popup.outerHeight()) / 2));
-            var left = ($(window).width() - this.$popup.outerWidth()) / 2));
+            var top = (($(window).height() - this.$popup.outerHeight()) / 2);
+            var left = (($(window).width() - this.$popup.outerWidth()) / 2);
             this.$popup.css({position:'absolute', margin:0, top:(top > 0 ? top : 0) + 'px', left:(left > 0 ? left : 0) + 'px'});
         },
         _startDrag:function (popup) {
