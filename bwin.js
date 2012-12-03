@@ -70,6 +70,7 @@ var bwin = window.bwin || (function ($) {
             this._calculateBody();
             this._startDrag(this.$popup);
             this._windows.push(this.options.id);
+            this.$popup.appendTo(document.body);
             if (this._windows.length === 1) {
                 this.overlay.show();
             }
